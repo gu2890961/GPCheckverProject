@@ -76,9 +76,17 @@
 }
 //显示
 - (void)show {
-     self.blackbgView.alpha = 1.0;
-    self.alpha = 1.0;
     [appWindow addSubview:self];
+    self.blackbgView.alpha = 1.0;
+    self.alpha = 1.0;
+    CAKeyframeAnimation *animation = [[CAKeyframeAnimation alloc] init];
+    //    [animation setDelegate:self];
+    animation.values = @[@(M_PI/64),@(-M_PI/64),@(M_PI/64),@(0)];
+    animation.duration = 0.5;
+    [animation setKeyPath:@"transform.rotation"];
+    animation.removedOnCompletion = NO;
+    animation.fillMode = kCAFillModeForwards;
+    [self.backgroundView.layer addAnimation:animation forKey:@"shake"];
 }
 //隐藏
 - (void)dismiss {
