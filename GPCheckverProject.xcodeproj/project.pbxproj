@@ -321,7 +321,7 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = GPCheckverProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ycxc.GPCheckverProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ycxc.carkit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -334,7 +334,7 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = GPCheckverProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ycxc.GPCheckverProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ycxc.carkit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};

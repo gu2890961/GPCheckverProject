@@ -5,8 +5,7 @@
 //  Created by apple on 2017/4/14.
 //  Copyright © 2017年 gupeng. All rights reserved.
 //
-#define APP_ID @"947218515" //  945594471（车老板）  //  947218515（好修养）
-#define APP_URL [NSString stringWithFormat:@"http://itunes.apple.com/cn/lookup?id=%@",APP_ID]
+
 #import "CheckVersion.h"
 #import "VersionUpdateView.h"
 
@@ -17,6 +16,9 @@
 @property (nonatomic , copy) NSString *currentVersion;//当前app的版本
 @property (nonatomic , copy) NSString *lastVersion;//App Store上的版本
 @property (nonatomic , strong) VersionUpdateView *updateView;
+@property (nonatomic, copy) NSString *trackViewUrl;//https://itunes.apple.com/us/app/%E5%A5%BD%E4%BF%AE%E5%85%BB/id947218515?mt=8&uo=4
+@property (nonatomic, copy) NSString *APP_ID;
+
 
 @end
 
@@ -38,7 +40,9 @@
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     // app版本
     self.currentVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:APP_URL]];
+    NSString *bundleId = infoDictionary[@"CFBundleIdentifier"];
+    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?bundleId=%@",bundleId]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:URL];
     [request setHTTPMethod:@"POST"];
     NSURLSession *session = [NSURLSession sharedSession];
     __weak typeof (self) weakSelf = self;
@@ -49,8 +53,11 @@
             NSLog(@"%@\n%@",dict.description,[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
             NSArray *dateArr = dict[@"results"];
             if (dateArr && dateArr.count) {
+                
                 //appStore里面的版本号
                 NSDictionary *releaseInfo = [dateArr objectAtIndex:0];
+                weakSelf.APP_ID = [[releaseInfo objectForKey:@"trackId"] stringValue];
+                weakSelf.trackViewUrl = [releaseInfo objectForKey:@"trackViewUrl"];
                 weakSelf.lastVersion = [releaseInfo objectForKey:@"version"];
                 //当前版本小于AppStore的版本  比如1.2.1<1.2.2 提示更新
                 if ([weakSelf version:weakSelf.currentVersion lessthan:weakSelf.lastVersion]) {
@@ -123,7 +130,7 @@
 }
 
 -(NSString *)getAppStroeUrlForiPhone{
-    return [NSString stringWithFormat:@"itms-apps://itunes.apple.com/cn/app/id%@",APP_ID];
+    return [NSString stringWithFormat:@"itms-apps://itunes.apple.com/cn/app/id%@",self.APP_ID];
 }
 
 @end
